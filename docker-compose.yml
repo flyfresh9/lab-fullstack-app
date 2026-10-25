@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_fullstack_lab
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - red_fullstack
+
+  web:
+    image: nginx:latest
+    container_name: web_fullstack_lab
+    restart: always
+    ports:
+      - "8090:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - red_fullstack
+
+volumes:
+  db_data:
+
+networks:
+  red_fullstack:
+    driver: bridge
